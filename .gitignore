@@ -1,0 +1,8 @@
+__pychache__
+README.md
+~*
+*~
+*.pyc
+.DS_Store
+.vscode/
+config.txt

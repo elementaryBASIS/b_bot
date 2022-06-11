@@ -41,12 +41,14 @@ def stop(m):
     db.users.find_one_and_delete({"_id":str(cid)})
 
 def choose_next_message(uid):
+    context, stage = get_context(uid)
     personal_form = {
         0 : lambda uid : send_question(uid, start_questions["get_id"])
     }
     {
-        "personal_form" : lambda uid : 
-    }
+        "personal_form" : lambda uid, stage : personal_form[stage](uid)
+    }[context](uid, stage)
+
 def send_question(uid, question):
     text = question['body']
     update_waiting_answer(uid, question)

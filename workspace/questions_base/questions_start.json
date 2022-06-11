@@ -1,0 +1,14 @@
+{
+    "get_id": {
+    "body": "Пожалуйста, введи свой id Нетологии",
+    "resp_type": "int"
+    },
+    "check_profile": {
+        "body": "Верны ли данные?",
+        "resp_type": "list",
+        "answers_list": [
+				"Да, конечно",
+				"Нет(exit)"
+		]
+        }
+}

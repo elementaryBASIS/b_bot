@@ -4,3 +4,4 @@ pathlib==1.0.1
 pyTelegramBotAPI==4.5.1
 peewee==3.14.10
 pymongo==4.1.1
+schedule==1.1.0

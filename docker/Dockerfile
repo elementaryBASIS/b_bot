@@ -38,7 +38,9 @@ RUN dpkg --add-architecture i386 && \
 ## mongo db install
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
 RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
-RUN apt update && apt install -y mongodb-org
+RUN apt update && apt install -y \
+                            mongodb-org \
+                            systemd
 
 ## python deps
 RUN apt update && apt install -y python3-pip

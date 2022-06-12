@@ -10,8 +10,8 @@ with open("config.txt", 'r') as token_file:
 bot = telebot.TeleBot(TOKEN)
 mongo = MongoClient('localhost:27017')
 db = mongo.b_bot
-
+ref_db = mongo.b_bot_reflections
 basic_questions = json.load(open("questions_base/questions_basic.json"))
-notification_questions = json.load(open("questions_base/questions_block1.json"))['hello_messages']
+notification_questions = json.load(open("questions_base/questions_block1.json"))
 reflection_questions = json.load(open("questions_base/questions_block2.json"))
-repeat_questions = json.load(open("questions_base/questions_block2.json"))
+repeat_questions = json.load(open("questions_base/questions_block3.json"))

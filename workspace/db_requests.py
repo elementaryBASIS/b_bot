@@ -23,6 +23,8 @@ def update_netoligic_data(cid, netologic_id):
     data = {"netologic_id": netologic_id, "course_name": coursename, "target": target}
     db.users.update_one({"_id": str(cid)}, {"$set": data})
     return data
+
+
 def get_netologic_data(cid):
     data =  db.users.find_one(str(cid))
     return {"netologic_id": data["netologic_id"], "course_name": data["course_name"], "target": data["target"]}

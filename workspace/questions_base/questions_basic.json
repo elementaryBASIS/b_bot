@@ -4,11 +4,13 @@
     "resp_type": "int"
     },
     "check_profile": {
-        "body": "Верны ли данные?",
+        "body": "Верны ли данные? {0} {1} {2}",
         "resp_type": "list",
         "answers_list": [
 				"Да, конечно",
 				"Нет(exit)"
-		]
-        }
+    ]},
+    "default": {
+        "body":"Мне не о чем с тобой говорить!"
+    }
 }

@@ -11,7 +11,7 @@ bot = telebot.TeleBot(TOKEN)
 mongo = MongoClient('localhost:27017')
 db = mongo.b_bot
 
-start_questions = json.load(open("questions_base/questions_start.json"))
+basic_questions = json.load(open("questions_base/questions_basic.json"))
 notification_questions = json.load(open("questions_base/questions_block1.json"))['hello_messages']
 reflection_questions = json.load(open("questions_base/questions_block2.json"))
 repeat_questions = json.load(open("questions_base/questions_block2.json"))

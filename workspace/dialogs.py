@@ -31,7 +31,9 @@ def handle_start(m):
             "target" : "",
             "course_length" : 0,
             "day" : "",
-            "time" : ""
+            "time" : "",
+            "future_question" : "",
+            "future_answer" : ""
         })
         send_next_message(uid)
 
@@ -53,7 +55,7 @@ def get_reflections(m):
 def skip_day(m):
     cid = m.chat.id
     bot.send_message(cid, f"\"Debug msg:\" Вы перешли на день вперед, сейчас {db.users.find_one(str(cid))['day']}")
-    db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_4"}})
+    db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_2"}})
     send_next_message(cid)
 
 @bot.message_handler(commands=['data'])
@@ -73,6 +75,7 @@ question_table = {
         "variant_4": {
             0 : choice(list(notification_questions.values())),
             1 : choice(list(repeat_questions["questions_first_group"].values())),
+            2 : choice(list(bye_question.values())),
         },
         "variant_2": {
             0 : choice(list(notification_questions.values())),
@@ -80,7 +83,8 @@ question_table = {
             2 : reflection_questions["lesson_theme"],
             3 : reflection_questions["lesson_problem_decision"],
             4 : reflection_questions["lesson_problem"],
-            5 : reflection_questions["lesson_answer"]
+            5 : reflection_questions["lesson_answer"],
+            6 : choice(list(bye_question.values())),
         }
     }
 
@@ -93,7 +97,7 @@ def send_next_message(cid):
                 1 : get_netologic_data(cid).values()
             },
             "variant_4": {
-            1 : tuple("Tema")
+            1 : [db.users.find_one(str(cid))['future_question']]
         },
         }[context][stage]
         
@@ -216,6 +220,7 @@ def _variant2_1_action(cid, msg, question):
         reset_context_and_stage(cid)
 
 def _variant2_2_action(cid, msg, question):
+    db.users.update_one({"_id": str(cid)}, {"$set": {"future_question": msg}})
     ref_db.users.insert_one({
             "cid": str(cid),
             "question" : question["body"],
@@ -232,6 +237,7 @@ def _variant2_3_action(cid, msg, question):
         reset_context_and_stage(cid) 
 
 def _variant2_4_action(cid, msg, question):
+    db.users.update_one({"_id": str(cid)}, {"$set": {"future_answer": msg}})
     ref_db.users.insert_one({
             "cid": str(cid),
             "question" : question["body"],

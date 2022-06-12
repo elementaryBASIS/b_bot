@@ -6,6 +6,8 @@ from pymongo import MongoClient
 
 with open("config.txt", 'r') as token_file:
     TOKEN = token_file.readline()
+import pandas as pd
+dataframe = pd.read_csv("questions_base/dataset.csv", index_col=0)
 
 bot = telebot.TeleBot(TOKEN)
 mongo = MongoClient('localhost:27017')

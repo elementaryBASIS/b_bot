@@ -18,8 +18,9 @@ def reset_context_and_stage(cid):
     db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "default"}})
 
 def update_netoligic_data(cid, netologic_id):
-    coursename = "myfirstcourse"
-    target = "mytargetis"
+    user_info = dataframe.iloc[int(netologic_id) + 1]
+    coursename = user_info["Название программы"]
+    target = user_info["Цель обучения"]
     data = {"netologic_id": netologic_id, "course_name": coursename, "target": target}
     db.users.update_one({"_id": str(cid)}, {"$set": data})
     return data

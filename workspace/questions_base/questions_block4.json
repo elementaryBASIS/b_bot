@@ -1,9 +1,9 @@
-{//М - Коэф мотивации при -1 <= М <= 1
+{
 	"introduction" :
 	{
 		"body": "А теперь давай немного порефлексируем",
 		"resp_type": "None"
-	}
+	},
 	"general_questions" : 
 	{
 		"question1": 

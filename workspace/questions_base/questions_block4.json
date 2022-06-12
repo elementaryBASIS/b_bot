@@ -1,630 +1,496 @@
-{	
-    "general_questions_second_group" : {
-	"questions": {
-        "question1" : {
-            "body": "Ты считаешь последнее занятие интересным?",
-                "resp_type": "list",
-                "answers_list": [
-                        {"Да": "answer_1_true"},
-                        {"Нет": "answer_1_false"}
-                ]
-        },
-        "question2" : {
-            "body": "Ты считаешь последнее занятие интересным?",
-                "resp_type": "list",
-                "answers_list": [
-                        {"Да": "answer_1_true"},
-                        {"Нет": "answer_1_false"}
-                ]
-        },
-    }
+{//М - Коэф мотивации при -1 <= М <= 1
+	"general_questions" : 
+	{
+		"question1": 
+		{
+			"body": "Ты считаешь последнее занятие интересным?",
+			"resp_type": "list",
+			"answers_list": 
+				{
+					"Да": "answer_1_true",
+					"Нет": "answer_1_false"
+				}
+		},
+		"question2": 
+		{
+			"body": "Ты можешь мысленно сформировать результат прошедшего занятия?",
+			"resp_type": "list",
+			"answers_list":
+				{
+					"Да": "answer_2_true",
+					"Нет": "answers_2_false"
+				}
+		},
+		"question3": 
+		{
+			"body": "На занятии было что-то новое для тебя?",
+			"resp_type": "list",
+			"answers_list":
+				{
+					"Да": "answer_3_true",
+					"Нет": "answer_3_false"
+				}
+		},
+		"question4": 
+		{
+			"body": "Ты был достаточно сконцентрирован на занятии?",
+			"resp_type": "list",
+			"answers_list":
+				{
+					"Да": "answer_4_true",
+					"Нет": "answer_4_false"
+				}
+		},
+		"question5": 
+		{
+			"body": "У тебя есть за что поблагодарить себя?",
+			"resp_type": "list",
+			"answers_list": 
+				{
+					"Да": "answer_5_true",
+					"Нет": "answer_5_false"
+				}
+		}
+	},
+	"general_answers": 
+	{
+		"answer_1_true": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None" 
+		},
+		"answer_1_false": 
+		{
+			"body": "", //М-=0.05
+			"resp_type": "None"
+		},
+		"answer_2_true": 
+		{
+			"body": "", //М+=0.07
+			"resp_type": "None"
+		},
+		"answer_2_false": 
+		{
+			"body": "Попробуй конспектировать занятие в тетрадь, и иногда туда заглядывать!", //М-=0.07
+			"resp_type": "None"
+		}
+		"answer_3_true": 
+		{
+			"body": "Как же круто познавать что-то новое!", //М+=0.04
+			"resp_type": "None"
+		}
+		"answer_3_false": 
+		{
+			"body": "Значит, ты немного преуспеваешь, молодец!", //М-=0.04
+			"resp_type": "None"
+		},
+		"answer_4_true": 
+		{
+			"body": "", //М+=0.06
+			"resp_type": "None"
+		},
+		"answer_4_false": 
+		{
+			"body": "Попробуй сесть за рабочее место, избежать шума, также можешь попробовать одеться так, как ты бы одевался на работу", //М-=0.06
+			"resp_type": "None"
+		}
+		"answer_5_true": 
+		{
+			"body": "", //M+=0.04
+			"resp_type": "None"
+		},
+		"answer_5_false": 
+		{
+			"body": "Попробуй практику благодарностей, это очень важно, когда ты обдумываешь то, что сделал за день и благодаришь себя", //M-=0.04
+			"resp_type": "None"
+		},
+	},
+	
+	"specific_questions" : //проверка на стейт юзера и вытягивание из одной группы 2 вопросов
+	{
+        "specific_question_1_1": 
+		{
+            "body": "Чувствуешь ли ты, что твой преподаватель является экспертом в своей сфере?",
+            "resp_type": "list",
+            "answers_list":
             {
-                "body": "Ты считаешь последнее занятие интересным?",
-                "resp_type": "list",
-                "answers_list": [
-                        {"Да": "answer_1_true"},
-                        {"Нет": "answer_1_false"}
-                ]
-            },
-            "question2": {
-                "body": "Ты можешь мысленно сформировать результат прошедшего занятия?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "answer_2_true",
-                        "Нет": "answers_2_false"
-                    }
-                ]
-            },
-        {
-            "question3": {
-                "body": "На занятии было что-то новое для тебя?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "answer_3_true",
-                        "Нет": "answer_3_false"
-                    }
-                ]
+                "Да": "specific_answer_1_1_true",
+                "Нет": "specific_answer_1_1_false"
             }
         },
-        {
-            "question4": {
-                "body": "Ты был достаточно сконцентрирован на занятии?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "answer_4_true",
-                        "Нет": "answer_4_false"
-                    }
-                ]
+        "specific_question_1_2": 
+		{
+            "body": "Есть ли у тебя примерное представление того, чем ты занимаешься?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_1_2_true",
+                "Нет": "specific_answer_1_2_false"
             }
         },
-        {
-            "question5": {
-                "body": "У тебя есть за что поблагодарить себя?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "answer_5_true",
-                        "Нет": "answer_5_false"
-                    }
-                ]
+        "specific_question_1_3": 
+		{
+            "body": "Вспоминаешь ли ты свою цель по мере обучения?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_1_3_true",
+                "Нет": "specific_answer_1_3_false"
+            }
+        },
+        "specific_question_1_4": 
+		{
+            "body": "Ты успеваешь делать домашние задания?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_1_4_true",
+                "Нет": "specific_answer_1_4_false"
+            }
+        },
+        "specific_question_1_5": 
+		{
+            "body": "Сфера обучения для тебя абсолютно нова?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "aspecific_answer_1_5_true",
+                "Нет": "specific_answer_1_5_false"
+            }
+        },
+        "specific_question_2_1": 
+		{
+            "body": "Ты чувствуешь, что твоя мотивация снизилась?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_2_1_true",
+                "Нет": "specific_answer_2_1_false"
+            }
+        },
+        "specific_question_2_2": 
+		{
+            "body": "Ты видишь мотивацию только в выполнении определенных заданий?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_2_2_true",
+                "Нет": "specific_answer_2_2_false"
+            }
+        },
+        "specific_question_2_3": 
+		{
+            "body": "Ты сделал последнее домашнее задание?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_2_3_true",
+                "Нет": "specific_answer_2_3_false"
+            }
+        },
+        "specific_question_2_4": 
+		{
+            "body": "Тебе приходится преодолевать нежелание учиться?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_2_4_true",
+                "Нет": "specific_answer_2_4_false"
+            }
+        },
+        "specific_question_3_1": 
+		{
+            "body": "Ты чувствуешь, что во многом преуспел по курсу?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_3_1_true",
+                "Нет": "specific_answer_3_1_false"
+            }
+        },
+        "specific_question_3_2": 
+		{
+            "body": "Ты пробуешь применять полученные знания на практике?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_3_2_true",
+                "Нет": "specific_answer_3_2_false"
+            }
+        },
+        "specific_question_3_3": 
+		{
+            "body": "Тебе хочется изучить более сложные задачи?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_3_3_true",
+                "Нет": "specific_answer_3_3_false"
+            }
+        },
+        "specific_question_3_4": 
+		{
+            "body": "Ты изучаешь дополнительный материал?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_3_4_true",
+                "Нет": "specific_answer_3_4_false"
+            }
+        },
+		"specific_question_3_5": 
+		{
+            "body": "Тебе не хватает экспертного мнения по результатам твоего обучения?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Хватает": "aspecific_answer_3_5_true",
+                "Не хватает": "specific_answer_3_5_false"
             }
         }
-    ],
-	"answers": [
-        {
-			"answer_1" : {
-				"answer_1_true": {
-                "body": "",
-                "motiv" : 0.05,
-                "resp_type": "None" 
-            },
-				"answer_1_false": {
-                "body": "",
-                "motiv": -0.05,
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "answer_2" : {
-				"answer_2_true": {
-                "body": "",
-                "motiv": 0.07,
-                "resp_type": "None"
-            },
-				"answer_2_false": {
-                "body": "Попробуй конспектировать занятие в тетрадь, и иногда туда заглядывать!",
-                "motiv":-0.07,
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "answer_3" : {
-				"answer_3_true": {
-                "body": "Как же круто познавать что-то новое!",
-                "motiv" : 0.04,
-                "resp_type": "None"
-            },
-				"answer_3_false": {
-                "body": "Значит, ты немного преуспеваешь, молодец!",
-                "motiv": -0.04,
-                "resp_type": "None"
-			}
-			}
-
-		},
-        {
-            "answer_4" : {
-				"answer_4_true": {
-                "body": "", 
-                "motiv" : 0.06,
-                "resp_type": "None"
-            },
-				"answer_4_false": {
-                "body": "Попробуй сесть за рабочее место, избежать шума, также можешь попробовать одеться так, как ты бы одевался на работу",
-                "motiv" : -0.06,
-                "resp_type": "None"
-				}
-			}
-        },
+        "specific_question_4_1": 
 		{
-            "answer_5" : {
-				"answer_5_true": {
-                "body": "", 
-                "motiv" : 0.04,
-                "resp_type": "None"
-            },
-				"answer_5_false": {
-                "body": "Попробуй практику благодарностей, это очень важно, когда ты обдумываешь то, что сделал за день и благодаришь себя", 
-                "motiv":-0.04,
-                "resp_type": "None"
-				}
-			}
+            "body": "Я чувствую, что твоя мотивация на высоте! Ты четко знаешь чего хочешь?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_4_1_true",
+                "Нет": "specific_answer_4_1_false"
+            }
         },
-    ],
+        "specific_question_4_2": 
+		{
+            "body": "Ты чувствуешь пользу от такой рефлексии?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_4_2_true",
+                "Нет": "specific_answer_4_2_false"
+            }
+        },
+        "specific_question_4_3": 
+		{
+            "body": "Тебе не кажется, что за все обучение ты узнал слишком мало?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Кажется(": "specific_answer_4_3_true",
+                "Не кажется)": "specific_answer_4_3_false"
+            }
+        },
+        "specific_question_4_4": 
+		{
+            "body": "Ты близок к своей цели?",
+            "resp_type": "list",
+            "answers_list":
+            {
+                "Да": "specific_answer_4_4_true",
+                "Нет": "specific_answer_4_4_false"
+            }
+        },
+		"specific_question_4_5": 
+		{
+            "body": "Ты хвалишь себя за то, чего уже достиг по мере прохождения курса?",
+            "resp_type": "list",
+            "answers_list":
+			
+            {
+                "Да": "aspecific_answer_4_5_true",
+                "Нет": "specific_answer_4_5_false"
+            }
+        }
+	},
+	"specific_answers":
+	{
+		"specific_answer_1_1_true": 
+		{
+			"body": "", //М+=0.08
+			"resp_type": "None" 
+		},
+		"specific_answer_1_1_false": 
+		{
+			"body": "", //М-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_1_2_true": 
+		{
+			"body": "", //М+=0.07
+			"resp_type": "None"
+		},
+		"specific_answer_1_2_false": 
+		{
+			"body": "", //М-=0.04
+			"resp_type": "None"
+		},
+		"specific_answer_1_3_true": 
+		{
+			"body": "Молодец! Очень важно помнить о своих целях!", //М+=0.07
+			"resp_type": "None"
+		},
+		"specific_answer_1_3_false": 
+		{
+			"body": "Тогда может тебе стоит поменять цель?", //М-=0.08, можно ебнуть кнопку смены цели
+			"resp_type": "None"
+		},
+		"specific_answer_1_4_true": 
+		{
+			"body": "Молодец! Очень важно помнить о своих целях!", //М+=0.08
+			"resp_type": "None"
+		},
+		"specific_answer_1_4_false": 
+		{
+			"body": "Попоробуй составить чек-лист по задачам, и разбивай большое домашнее задание на маленькие части", //М-=0.07
+			"resp_type": "None"
+		},
+		"specific_answer_1_5_true": 
+		{
+			"body": "", //M+=0.02
+			"resp_type": "None"
+		},
+		"specific_answer_1_5_false": 
+		{
+			"body": "", //M-=0.02
+			"resp_type": "None"
+		},
+		"specific_answer_2_1_true": 
+		{
+			"body": "Вспомни цель своего обучения. Попробуй представить, как добьешься её:)", //М-=0.05
+			"resp_type": "None" 
+		},
+		"specific_answer_2_1_false": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_2_2_true": 
+		{
+			"body": "", //М-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_2_2_false": 
+		{
+			"body": "Воспринимай обучение как один большой механизм, каждое задание имеет свой вклад! У тебя всё получится:)", //М+=0.05
+			"resp_type": "None"
+		}
+		"specific_answer_2_3_true": 
+		{
+			"body": "Так держать!", //М+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_2_3_false": 
+			{
+			"body": "JUST DO IT", //М-=0.05
+			"resp_type": "None"
+		}
+		"specific_answer_2_4_true": 
+		{
+			"body": "Так бывает, все мы преодолеваем разные препятствия, у тебя получится!", //М-=0.03
+			"resp_type": "None"
+		},	
+		"specific_answer_2_4_false": 
+		{
+			"body": "", //М+=0.03
+			"resp_type": "None"
+		},
+		"specific_answer_3_1_true": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None" 
+		},
+		"specific_answer_3_1_false": 
+		{
+			"body": "Не расстраивайся, всё впереди!", //М-=0.05
+			"resp_type": "None"
+		}
+		"specific_answer_3_2_true": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_2_false": 
+		{
+			"body": "Обязательно попробуй! Это очень помогает осознавать ценность знаний:)", //М-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_3_true": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_3_false": 
+		{
+			"body": "", //М-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_4_true": 
+		{
+			"body": "", //М+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_4_false": 
+		{
+			"body": "", //М-=0.05
+			"resp_type": "None"
+		}
+		"specific_answer_3_5_true": 
+		{
+			"body": "", //M+=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_3_5_false": 
+		{
+			"body": "Может тебе стоит задавать больше вопросов преподавателю?", //M-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_4_1_true": 
+		{
+			"body": "", //М+=0.04
+			"resp_type": "None" 
+		},
+		"specific_answer_4_1_false": 
+		{
+			"body": "", //М-=0.04
+			"resp_type": "None"
+		},
+		"specific_answer_4_2_true": 
+		{
+			"body": "", //М+=0.04
+			"resp_type": "None"
+		},
+		"specific_answer_4_2_false": 
+		{
+			"body": "Рефлексия помогает человеку понимать, как он выглядит со стороны, поэтому является одним из важнейших механизмов личностного развития", //М-=0.06
+			"resp_type": "None"
+		},
+		"specific_answer_4_3_true": 
+		{
+			"body": "Попробуй открыть свои конспекты, или модули курса и посмотреть на всё то, что ты изучил. Ты молодец!", //М-=0.05
+			"resp_type": "None"
+		},
+		"specific_answer_4_3_false": 
+		{
+			"body": "", //М+=0.03
+			"resp_type": "None"
+		},
+		"specific_answer_4_4_true": 
+		{
+			"body": "", //М+=0.04
+			"resp_type": "None"
+		},
+		"specific_answer_4_4_false": 
+		{
+			"body": "Может вам стоит задуматься над правильностью вашей цели? Может она не достаточно конкретная?", //М-=0.06
+			"resp_type": "None"
+		},
+		"specific_answer_4_5_true": 
+		{
+			"body": "", //M+=0.04
+			"resp_type": "None"
+		},
+		"specific_answer_4_5_false": 
+		{
+			"body": "Вознаграждая себя за успехи, мы помогаем себе настроиться и на дальнейшие свершения и будущие достижения. Похвала, исходящая от самого себя и других людей, мотивирует, вдохновляет и помогать преодолевать кризисы.", //M-=0.06
+			"resp_type": "None"
+		}
 	}
-	
-	"specific questions_second_group" : {
-	"specific_questions_1": [
-		{
-            "specific_question_1_1": {
-                "body": "Чувствуешь ли ты, что твой преподаватель является экспертом в своей сфере?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_1_1_true",
-                        "Нет": "specific_answer_1_1_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_1_2": {
-                "body": "Есть ли у тебя примерное представление того, чем ты занимаешься?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_1_2_true",
-                        "Нет": "specific_answer_1_2_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_1_3": {
-                "body": "Вспоминаешь ли ты свою цель по мере обучения?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_1_3_true",
-                        "Нет": "specific_answer_1_3_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_1_4": {
-                "body": "Ты успеваешь делать домашние задания?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_1_4_true",
-                        "Нет": "specific_answer_1_4_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_1_5": {
-                "body": "Сфера обучения для тебя абсолютно нова?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "aspecific_answer_1_5_true",
-                        "Нет": "specific_answer_1_5_false"
-                    }
-                ]
-            }
-        }
-	],
-	"specific_questions_2": [
-	{
-            "specific_question_2_1": {
-                "body": "Ты чувствуешь, что твоя мотивация снизилась?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_2_1_true",
-                        "Нет": "specific_answer_2_1_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_2_2": {
-                "body": "Ты видишь мотивацию только в выполнении определенных заданий?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_2_2_true",
-                        "Нет": "specific_answer_2_2_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_2_3": {
-                "body": "Ты сделал последнее домашнее задание?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_2_3_true",
-                        "Нет": "specific_answer_2_3_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_2_4": {
-                "body": "Тебе приходится преодолевать нежелание учиться?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_2_4_true",
-                        "Нет": "specific_answer_2_4_false"
-                    }
-                ]
-            }
-        },
-	],
-	"specific_questions_3": [
-	{
-            "specific_question_3_1": {
-                "body": "Ты чувствуешь, что во многом преуспел по курсу?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_3_1_true",
-                        "Нет": "specific_answer_3_1_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_3_2": {
-                "body": "Ты пробуешь применять полученные знания на практике?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_3_2_true",
-                        "Нет": "specific_answer_3_2_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_3_3": {
-                "body": "Тебе хочется изучить более сложные задачи?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_3_3_true",
-                        "Нет": "specific_answer_3_3_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_3_4": {
-                "body": "Ты изучаешь дополнительный материал?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_3_4_true",
-                        "Нет": "specific_answer_3_4_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_3_5": {
-                "body": "Тебе не хватает экспертного мнения по результатам твоего обучения?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Хватает": "aspecific_answer_3_5_true",
-                        "Не хватает": "specific_answer_3_5_false"
-                    }
-                ]
-            }
-        }
-	],
-	"specific_questions_4": [
-		{
-            "specific_question_4_1": {
-                "body": "Я чувствую, что твоя мотивация на высоте! Ты четко знаешь чего хочешь?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_4_1_true",
-                        "Нет": "specific_answer_4_1_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_4_2": {
-                "body": "Ты чувствуешь пользу от такой рефлексии?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_4_2_true",
-                        "Нет": "specific_answer_4_2_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_4_3": {
-                "body": "Тебе не кажется, что за все обучение ты узнал слишком мало?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Кажется(": "specific_answer_4_3_true",
-                        "Не кажется)": "specific_answer_4_3_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_4_4": {
-                "body": "Ты близок к своей цели?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "specific_answer_4_4_true",
-                        "Нет": "specific_answer_4_4_false"
-                    }
-                ]
-            }
-        },
-        {
-            "specific_question_4_5": {
-                "body": "Ты хвалишь себя за то, чего уже достиг по мере прохождения курса?",
-                "resp_type": "list",
-                "answers_list": [
-                    {
-                        "Да": "aspecific_answer_4_5_true",
-                        "Нет": "specific_answer_4_5_false"
-                    }
-                ]
-            }
-        }
-	}
-	
-	"specific_answers_1": [
-		{
-			"specific_answer_1_1" : {
-				"specific_answer_1_1_true": {
-                "body": "", //М+=0.08
-                "resp_type": "None" 
-            },
-				"specific_answer_1_1_false": {
-                "body": "", //М-=0.05
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_1_2" : {
-				"specific_answer_1_2_true": {
-                "body": "", //М+=0.07
-                "resp_type": "None"
-            },
-				"specific_answer_1_2_false": {
-                "body": "", //М-=0.04
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_1_3" : {
-				"specific_answer_1_3_true": {
-                "body": "Молодец! Очень важно помнить о своих целях!", //М+=0.07
-                "resp_type": "None"
-            },
-				"specific_answer_1_3_false": {
-                "body": "Тогда может тебе стоит поменять цель?", //М-=0.08, можно ебнуть кнопку смены цели
-                "resp_type": "None"
-			}
-			}
-
-		},
-        {
-            "specific_answer_1_4" : {
-				"specific_answer_1_4_true": {
-                "body": "Молодец! Очень важно помнить о своих целях!", //М+=0.08
-                "resp_type": "None"
-            },
-				"specific_answer_1_4_false": {
-                "body": "Попоробуй составить чек-лист по задачам, и разбивай большое домашнее задание на маленькие части", //М-=0.07
-                "resp_type": "None"
-				}
-			}
-        },
-		{
-            "specific_answer_1_5" : {
-				"specific_answer_1_5_true": {
-                "body": "", //M+=0.02
-                "resp_type": "None"
-            },
-				"specific_answer_1_5_false": {
-                "body": "", //M-=0.02
-                "resp_type": "None"
-				}
-			}
-        }
-    ],
-	"specific_answers_2": [
-		{
-			"specific_answer_2_1" : {
-				"specific_answer_2_1_true": {
-                "body": "Вспомни цель своего обучения. Попробуй представить, как добьешься её:)", //М-=0.05
-                "resp_type": "None" 
-            },
-				"specific_answer_2_1_false": {
-                "body": "", //М+=0.05
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_1_2" : {
-				"specific_answer_2_2_true": {
-                "body": "", //М-=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_2_2_false": {
-                "body": "Воспринимай обучение как один большой механизм, каждое задание имеет свой вклад! У тебя всё получится:)", //М+=0.05
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_2_3" : {
-				"specific_answer_2_3_true": {
-                "body": "Так держать!", //М+=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_2_3_false": {
-                "body": "JUST DO IT", //М-=0.05
-                "resp_type": "None"
-			}
-			}
-
-		},
-        {
-            "specific_answer_2_4" : {
-				"specific_answer_2_4_true": {
-                "body": "Так бывает, все мы преодолеваем разные препятствия, у тебя получится!", //М-=0.03
-                "resp_type": "None"
-            },
-				"specific_answer_2_4_false": {
-                "body": "", //М+=0.03
-                "resp_type": "None"
-				}
-			}
-        }
-	],
-	"specific_answers_3": [
-	{
-			"specific_answer_3_1" : {
-				"specific_answer_3_1_true": {
-                "body": "", //М+=0.05
-                "resp_type": "None" 
-            },
-				"specific_answer_3_1_false": {
-                "body": "Не расстраивайся, всё впереди!", //М-=0.05
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_3_2" : {
-				"specific_answer_3_2_true": {
-                "body": "", //М+=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_3_2_false": {
-                "body": "Обязательно попробуй! Это очень помогает осознавать ценность знаний:)", //М-=0.05
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_3_3" : {
-				"specific_answer_3_3_true": {
-                "body": "", //М+=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_3_3_false": {
-                "body": "", //М-=0.05
-                "resp_type": "None"
-			}
-			}
-
-		},
-        {
-            "specific_answer_3_4" : {
-				"specific_answer_3_4_true": {
-                "body": "", //М+=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_3_4_false": {
-                "body": "", //М-=0.05
-                "resp_type": "None"
-				}
-			}
-        },
-		{
-            "specific_answer_3_5" : {
-				"specific_answer_3_5_true": {
-                "body": "", //M+=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_3_5_false": {
-                "body": "Может тебе стоит задавать больше вопросов преподавателю?", //M-=0.05
-                "resp_type": "None"
-				}
-			}
-        }
-	],
-	"specific_answers_4": [
-	{
-			"specific_answer_4_1" : {
-				"specific_answer_4_1_true": {
-                "body": "", //М+=0.04
-                "resp_type": "None" 
-            },
-				"specific_answer_4_1_false": {
-                "body": "", //М-=0.04
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_4_2" : {
-				"specific_answer_4_2_true": {
-                "body": "", //М+=0.04
-                "resp_type": "None"
-            },
-				"specific_answer_4_2_false": {
-                "body": "Рефлексия помогает человеку понимать, как он выглядит со стороны, поэтому является одним из важнейших механизмов личностного развития", //М-=0.06
-                "resp_type": "None"
-            }
-			}
-        },
-        {
-            "specific_answer_4_3" : {
-				"specific_answer_4_3_true": {
-                "body": "Попробуй открыть свои конспекты, или модули курса и посмотреть на всё то, что ты изучил. Ты молодец!", //М-=0.05
-                "resp_type": "None"
-            },
-				"specific_answer_4_3_false": {
-                "body": "", //М+=0.03
-                "resp_type": "None"
-			}
-			}
-
-		},
-        {
-            "specific_answer_4_4" : {
-				"specific_answer_4_4_true": {
-                "body": "", //М+=0.04
-                "resp_type": "None"
-            },
-				"specific_answer_4_4_false": {
-                "body": "Может вам стоит задуматься над правильностью вашей цели? Может она не достаточно конкретная?", //М-=0.06
-                "resp_type": "None"
-				}
-			}
-        },
-		{
-            "specific_answer_4_5" : {
-				"specific_answer_4_5_true": {
-                "body": "", //M+=0.04
-                "resp_type": "None"
-            },
-				"specific_answer_4_5_false": {
-                "body": "Вознаграждая себя за успехи, мы помогаем себе настроиться и на дальнейшие свершения и будущие достижения. Похвала, исходящая от самого себя и других людей, мотивирует, вдохновляет и помогать преодолевать кризисы.", //M-=0.06
-                "resp_type": "None"
-				}
-			}
-        }
-	}
-	]
 }

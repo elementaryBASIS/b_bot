@@ -18,6 +18,7 @@ According to this system, *Neto* detects your current mental state and asks spec
 which help you to learn without struggle but with full understanding of the reason
 why you are doing it.
 
+![algo](media/algo.jpeg)
 # Structure <a name="struct"></a>
 Here are the structure of package, there you can find additional information:
 - [**workspace**](workspace) all bot sources are here

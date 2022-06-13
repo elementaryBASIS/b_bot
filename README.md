@@ -13,7 +13,7 @@ This Telegram bot is considered to make you feel more confident and motivated ab
 You will study more effectively with the special reflection program.
 It is based on so-called SSDL system, which describes an average studying curve.
 According to this system, NETO detects your current mental state and asks specific questions,
-which help you to learn without struggle with full understanding of the reason
+which help you to learn without struggle but with full understanding of the reason
 why you are doing it.
 # Structure <a name="struct"></a>
 Here are the structure of package, there you can find additional information:

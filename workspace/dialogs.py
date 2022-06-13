@@ -38,7 +38,9 @@ def handle_start(m):
             "future_answer" : "",
             "days_gone" : 0,
             "motivation" : 0.7,
-            "competition" : 0
+            "competition" : 0,
+            "passed_lessons" : 0,
+            "Neto_state" : 0
         })
         send_next_message(uid)
 
@@ -221,7 +223,7 @@ def process_answer(m):
 
 def send_question(cid, question, format_string = []):
     # sends message to user, formats answers. If reply not required, increments stage
-    
+
     text = question['body'].format(*format_string)
     
     if "answers_list" in question.keys():
@@ -235,7 +237,31 @@ def send_question(cid, question, format_string = []):
         increment_stage(cid)
         send_next_message(cid)
 
+def choose_Neto(cid):
+    length = int(db.users.find_one(str(cid))["course_length"])
+    motiv = db.users.find_one(str(cid))["motivation"]
+    passed = db.users.find_one(str(cid))["passed_lessons"]
+    if length == 0:
+        length = 1
+    comp = passed / length
+    state = 0
+    if (comp < 0.5 and motiv >= 0):
+        state = 1
+    elif (comp < 0.5 and motiv < 0):
+        state = 2
+    elif (comp >= 0.5 and motiv < 0):
+        state = 3
+    elif (comp >= 0.5 and motiv >= 0):
+        state = 4
 
+    state_Neto = int(comp * 4)
+    db.users.update_one({"_id": str(cid)}, {"$set": {"Neto_state": state_Neto}})
+    return state_Neto
+
+    
+
+        
+    
 # actions' callbacks
 
 def _variant4_0_action(cid, msg, question):
@@ -280,7 +306,7 @@ def _variant2_1_action(cid, msg, question):
         bot.send_message(cid, "Замечательно, идем дальше")
         increment_stage(cid)
     elif msg == question["answers_list"][1]:
-        bot.send_message(cid, "Жаль")
+        bot.send_message(cid, "Жаль, что так вышло")
         reset_context_and_stage(cid)
     else:
         bot.send_message(cid, "Не совсем тебя понимаю")
@@ -297,9 +323,10 @@ def _variant2_2_action(cid, msg, question):
 
 def _variant2_3_action(cid, msg, question):
     if msg == question["answers_list"][0]:
+        increment_progress(cid)
         increment_stage(cid)
     elif msg == question["answers_list"][1]:
-        bot.send_message(cid, "Жаль")
+        bot.send_message(cid, "Жаль, что так вышло")
         reset_context_and_stage(cid) 
     else:
         bot.send_message(cid, "Не совсем тебя понимаю")
@@ -368,6 +395,10 @@ def _variant3_6_action(cid, msg, question):
         increment_stage(cid)
     else:
         bot.send_message(cid, "Не совсем тебя понимаю")
+    
+    img = open("neto_pics/" + str(choose_Neto(cid) + 1) + ".gif", 'rb')
+    bot.send_photo(cid, img, caption="Твой Нето повзрослел благодаря твоим успехам  обучении! Продолжай в том же духе! :)")
+
 def mock_action(cid, text, _question):
     pass
 

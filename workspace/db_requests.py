@@ -36,7 +36,10 @@ def increment_day(cid):
     day = db.users.find_one(str(cid))['days_gone']
     db.users.update_one({"_id": str(cid)}, {"$set": {"days_gone": day + 1}})
     return day + 1
-
+def increment_progress(cid):
+    pr = db.users.find_one(str(cid))['passed_lessons']
+    db.users.update_one({"_id": str(cid)}, {"$set": {"passed_lessons": pr + 1}})
+    
 def get_netologic_data(cid):
     data =  db.users.find_one(str(cid))
     return {"netologic_id": data["netologic_id"], "course_name": data["course_name"], "target": data["target"]}

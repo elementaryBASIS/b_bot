@@ -7,13 +7,15 @@ from config import *
 from db_requests import *
 from random import randint, choice
 import datetime
+
 @bot.message_handler(commands=['start'])
 def handle_start(m):
+    # initalize user record in MongoDB
+
     cid = m.chat.id
     uid = m.from_user.id
     date = m.date
     if was_user(cid) + is_user(cid):
-        # db.users.remove(str(cid))
         db.users.update_one({"_id": str(cid)}, {"$set": {"active": True}})
         bot.send_message(cid, "Мы уже знакомы, если ты хочешь перезапустить ассистента, используй /stop")
     else:
@@ -40,15 +42,18 @@ def handle_start(m):
         })
         send_next_message(uid)
 
-
 @bot.message_handler(commands=['stop'])
 def stop(m):
+    # clear user record
+
     print("delete from base")
     cid = m.chat.id
     db.users.find_one_and_delete({"_id":str(cid)})
 
 @bot.message_handler(commands=['reflections'])
 def get_reflections(m):
+    # show reflections statistics
+
     cid = m.chat.id
     bot.send_message(cid, "Вот все твои рефлексии:")
     for i in ref_db.users.find({"cid":str(cid)}):
@@ -56,6 +61,8 @@ def get_reflections(m):
 
 @bot.message_handler(commands=['skip_day'])
 def skip_day(m):
+    # go to next day, only for testing
+
     cid = m.chat.id
     bot.send_message(cid, f"\"Debug msg:\" Вы перешли на день вперед, сейчас день {str(db.users.find_one(str(cid))['days_gone'])}")
     day = increment_day(cid)
@@ -69,10 +76,14 @@ def skip_day(m):
 
 @bot.message_handler(commands=['data'])
 def get_reflections(m):
+    # print saved data from MongoDB
+
     cid = m.chat.id
     bot.send_message(cid, "Вот все что я знаю о тебе:\n" + str(db.users.find_one(str(cid))))
 
 def question_table(cid):
+    # link context and stages to questions from "question_base"
+
     return {
         "personal_form": { # basic questions only
             0 : basic_questions["get_id"],
@@ -108,6 +119,8 @@ def question_table(cid):
         }
     }
 def select_question_group_3(cid, questions):
+    # third group is genuine, use specific choice method
+
     day = db.users.find_one(str(cid))['days_gone']
     if day == 2:
         return questions["questions_first_group"]["question1"]
@@ -117,9 +130,11 @@ def select_question_group_3(cid, questions):
         return questions["questions_first_group"]["question4"]
     elif day == 30:
         return questions["questions_first_group"]["question5"]
+
 def send_next_message(cid):
+    # looks at stage, if there's any more, passes it to send_message. May configeure formated answers
+
     context, stage = get_context(cid)
-    
     try:
         add_data = {
             "personal_form": {
@@ -143,6 +158,8 @@ def send_next_message(cid):
 
 @bot.message_handler(content_types="text")
 def process_answer(m):
+    # process users answers. Validates input and calls own action callback
+
     cid = m.chat.id
     context, stage = get_context(cid)
     # lets validate input, if returned None, its ok. If there is error in input, it returns error message
@@ -203,6 +220,8 @@ def process_answer(m):
         send_next_message(cid)
 
 def send_question(cid, question, format_string = []):
+    # sends message to user, formats answers. If reply not required, increments stage
+    
     text = question['body'].format(*format_string)
     
     if "answers_list" in question.keys():
@@ -215,6 +234,9 @@ def send_question(cid, question, format_string = []):
     if question["resp_type"].lower() == "none":
         increment_stage(cid)
         send_next_message(cid)
+
+
+# actions' callbacks
 
 def _variant4_0_action(cid, msg, question):
     if msg == question["answers_list"][0]:

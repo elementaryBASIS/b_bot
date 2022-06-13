@@ -33,7 +33,8 @@ def handle_start(m):
             "day" : "",
             "time" : "",
             "future_question" : "",
-            "future_answer" : ""
+            "future_answer" : "",
+            "days_gone" : 0
         })
         send_next_message(uid)
 
@@ -54,8 +55,12 @@ def get_reflections(m):
 @bot.message_handler(commands=['skip_day'])
 def skip_day(m):
     cid = m.chat.id
-    bot.send_message(cid, f"\"Debug msg:\" Вы перешли на день вперед, сейчас {db.users.find_one(str(cid))['day']}")
-    db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_2"}})
+    bot.send_message(cid, f"\"Debug msg:\" Вы перешли на день вперед, сейчас день {str(db.users.find_one(str(cid))['days_gone'])}")
+    day = increment_day(cid)
+    if day == 1 or len(db.users.find_one(str(cid))['future_question']) < 5:
+        db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_2"}})
+    elif day in (2, 5, 7, 9, 10, 15, 18, 20, 29, 30):
+        db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_4"}})
     send_next_message(cid)
 
 @bot.message_handler(commands=['data'])
@@ -63,7 +68,8 @@ def get_reflections(m):
     cid = m.chat.id
     bot.send_message(cid, "Вот все что я знаю о тебе:\n" + str(db.users.find_one(str(cid))))
 
-question_table = {
+def question_table(cid):
+    return {
         "personal_form": {
             0 : basic_questions["get_id"],
             1 : basic_questions["check_profile"],
@@ -74,7 +80,7 @@ question_table = {
         },
         "variant_4": {
             0 : choice(list(notification_questions.values())),
-            1 : choice(list(repeat_questions["questions_first_group"].values())),
+            1 : select_question_group_3(cid, repeat_questions),
             2 : choice(list(bye_question.values())),
         },
         "variant_2": {
@@ -87,7 +93,16 @@ question_table = {
             6 : choice(list(bye_question.values())),
         }
     }
-
+def select_question_group_3(cid, questions):
+    day = db.users.find_one(str(cid))['days_gone']
+    if day == 2:
+        return questions["questions_first_group"]["question1"]
+    elif day <= 7:
+        return questions["questions_first_group"][choice(("question2", "question3"))]
+    elif day <= 15:
+        return questions["questions_first_group"]["question4"]
+    elif day == 30:
+        return questions["questions_first_group"]["question5"]
 def send_next_message(cid):
     context, stage = get_context(cid)
     
@@ -104,7 +119,7 @@ def send_next_message(cid):
     except KeyError as e:
         add_data = []
     try:
-        question = question_table[context][stage]
+        question = question_table(cid)[context][stage]
     except KeyError as e:
         print("error1", e, context, stage)
         reset_context_and_stage(cid)
@@ -118,7 +133,7 @@ def process_answer(m):
     context, stage = get_context(cid)
     # lets validate input, if returned None, its ok. If there is error in input, it returns error message
     try:
-        question = question_table[context][stage]
+        question = question_table(cid)[context][stage]
     except KeyError:
         print("No active questions")
         return
@@ -130,8 +145,10 @@ def process_answer(m):
             "" : validator_mock,
             "str": validator_mock,
             "int" : lambda msg : None if msg.isdigit() else "Нет уж. Хочу число!",
-            "list" : lambda msg : None if msg in question["answers_list"] else "Выберите вариант из: " + str(question["answers_list"]),
-            "composite" : lambda msg : None if msg in list(question["answers_list"].keys()) else "Выберите вариант из: " + str(list(question["answers_list"].keys())),
+            "list" : validator_mock,
+            "composite" : validator_mock
+            #"list" : lambda msg : None if msg in question["answers_list"] else "Выберите вариант из: " + str(question["answers_list"]),
+            #"composite" : lambda msg : None if msg in list(question["answers_list"].keys()) else "Выберите вариант из: " + str(list(question["answers_list"].keys())),
             }[question["resp_type"].lower()](m.text)
             if not validate is None:
                 bot.send_message(cid, validate)
@@ -191,11 +208,13 @@ def _personal_form_0_action(cid, netologic_id, _question):
     increment_stage(cid)
 
 def _personal_form_1_action(cid, msg, question):
-    if msg == question["answers_list"][0]:
+    if msg in ["Да, все понятно)","Да, хорошо помню тему)","До сих пор ориентируюсь в этой теме)","Даже спустя время я могу воспроизвести материал!","Да, я до сих пор помню вещи оттуда!"]:
         increment_stage(cid)
-    elif msg == question["answers_list"][1]:
+    elif msg in ["Чувствую, что понял(а) тему не до конца(", "Если честно уже начинаю забывать(","Теория уже потихоньку уходит из головы(", "Если честно, уже нет :(", "Спустя время я почти все забыл("]:
         bot.send_message(cid, "Жаль, введите верный Netologic ID")
         db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "personal_form"}})
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
     # send_next_message(cid)
 
 def _personal_form_2_action(cid, length, _question):
@@ -218,6 +237,8 @@ def _variant2_1_action(cid, msg, question):
     elif msg == question["answers_list"][1]:
         bot.send_message(cid, "Жаль")
         reset_context_and_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
 
 def _variant2_2_action(cid, msg, question):
     db.users.update_one({"_id": str(cid)}, {"$set": {"future_question": msg}})
@@ -235,6 +256,8 @@ def _variant2_3_action(cid, msg, question):
     elif msg == question["answers_list"][1]:
         bot.send_message(cid, "Жаль")
         reset_context_and_stage(cid) 
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
 
 def _variant2_4_action(cid, msg, question):
     db.users.update_one({"_id": str(cid)}, {"$set": {"future_answer": msg}})
@@ -254,6 +277,7 @@ def _variant2_5_action(cid, msg, question):
             "datetime" : datetime.datetime.now()
         })
     increment_stage(cid)
+
 def mock_action(cid, text, _question):
     pass
 

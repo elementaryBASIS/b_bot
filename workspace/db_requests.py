@@ -1,3 +1,4 @@
+from random import randint
 from config import *
 
 def was_user(cid):
@@ -18,6 +19,8 @@ def reset_context_and_stage(cid):
     db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "default"}})
 
 def update_netoligic_data(cid, netologic_id):
+    if int(netologic_id) > 18760:
+        netologic_id = randint(2, 18760)
     user_info = dataframe.iloc[int(netologic_id) + 1]
     coursename = user_info["Название программы"]
     target = user_info["Цель обучения"]
@@ -25,6 +28,10 @@ def update_netoligic_data(cid, netologic_id):
     db.users.update_one({"_id": str(cid)}, {"$set": data})
     return data
 
+def increment_day(cid):
+    day = db.users.find_one(str(cid))['days_gone']
+    db.users.update_one({"_id": str(cid)}, {"$set": {"days_gone": day + 1}})
+    return day + 1
 
 def get_netologic_data(cid):
     data =  db.users.find_one(str(cid))

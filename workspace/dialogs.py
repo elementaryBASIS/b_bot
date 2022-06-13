@@ -34,7 +34,9 @@ def handle_start(m):
             "time" : "",
             "future_question" : "",
             "future_answer" : "",
-            "days_gone" : 0
+            "days_gone" : 0,
+            "motivation" : 0.7,
+            "competition" : 0
         })
         send_next_message(uid)
 
@@ -61,6 +63,8 @@ def skip_day(m):
         db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_2"}})
     elif day in (2, 5, 7, 9, 10, 15, 18, 20, 29, 30):
         db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_4"}})
+    else:
+        db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "variant_3"}})
     send_next_message(cid)
 
 @bot.message_handler(commands=['data'])
@@ -70,7 +74,7 @@ def get_reflections(m):
 
 def question_table(cid):
     return {
-        "personal_form": {
+        "personal_form": { # basic questions only
             0 : basic_questions["get_id"],
             1 : basic_questions["check_profile"],
             2 : basic_questions["course_length"],
@@ -78,12 +82,22 @@ def question_table(cid):
             4 : basic_questions["preffered_time"],
             5 : basic_questions["default"]
         },
-        "variant_4": {
+        "variant_4": { # blocks: 1, 3, 5
             0 : choice(list(notification_questions.values())),
             1 : select_question_group_3(cid, repeat_questions),
             2 : choice(list(bye_question.values())),
         },
-        "variant_2": {
+        "variant_3": { # everyday questions, blocks: 1, 4, 5
+            0 : choice(list(notification_questions.values())),
+            1 : pipeline_questions["introduction"],
+            2 : pipeline_questions["general_questions"]["question1"],
+            3 : pipeline_questions["general_questions"]["question2"],
+            4 : pipeline_questions["general_questions"]["question3"],
+            5 : pipeline_questions["general_questions"]["question4"],
+            6 : pipeline_questions["general_questions"]["question5"],
+            7 : choice(list(bye_question.values()))
+        },
+        "variant_2": { # blocks: 1, 2, 5
             0 : choice(list(notification_questions.values())),
             1 : reflection_questions["lesson_check"],
             2 : reflection_questions["lesson_theme"],
@@ -172,6 +186,13 @@ def process_answer(m):
                 3 : _variant2_3_action,
                 4 : _variant2_4_action,
                 5 : _variant2_5_action
+            },
+            "variant_3" : {
+                2 : _variant3_2_action,
+                3 : _variant3_3_action,
+                4 : _variant3_4_action,
+                5 : _variant3_5_action,
+                6 : _variant3_6_action
             }
         }[context][stage]
         answert_processor(cid, m.text, question)
@@ -208,9 +229,11 @@ def _personal_form_0_action(cid, netologic_id, _question):
     increment_stage(cid)
 
 def _personal_form_1_action(cid, msg, question):
-    if msg in ["Да, все понятно)","Да, хорошо помню тему)","До сих пор ориентируюсь в этой теме)","Даже спустя время я могу воспроизвести материал!","Да, я до сих пор помню вещи оттуда!"]:
+    #if msg in ["Да, все понятно)","Да, хорошо помню тему)","До сих пор ориентируюсь в этой теме)","Даже спустя время я могу воспроизвести материал!","Да, я до сих пор помню вещи оттуда!"]:
+    if msg == question["answers_list"][0]:
         increment_stage(cid)
-    elif msg in ["Чувствую, что понял(а) тему не до конца(", "Если честно уже начинаю забывать(","Теория уже потихоньку уходит из головы(", "Если честно, уже нет :(", "Спустя время я почти все забыл("]:
+    #elif msg in ["Чувствую, что понял(а) тему не до конца(", "Если честно уже начинаю забывать(","Теория уже потихоньку уходит из головы(", "Если честно, уже нет :(", "Спустя время я почти все забыл("]:
+    elif msg == question["answers_list"][1]:
         bot.send_message(cid, "Жаль, введите верный Netologic ID")
         db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "personal_form"}})
     else:
@@ -278,6 +301,51 @@ def _variant2_5_action(cid, msg, question):
         })
     increment_stage(cid)
 
+def _variant3_2_action(cid, msg, question):
+    if msg.lower() == "да":
+        plus_motivation(cid, 0.05)
+        increment_stage(cid)
+    elif msg.lower() == "нет":
+        plus_motivation(cid, -0.05)
+        increment_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
+def _variant3_3_action(cid, msg, question):
+    if msg.lower() == "да":
+        plus_motivation(cid, 0.07)
+        increment_stage(cid)
+    elif msg.lower() == "нет":
+        plus_motivation(cid, -0.07)
+        increment_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
+def _variant3_4_action(cid, msg, question):
+    if msg.lower() == "да":
+        plus_motivation(cid, 0.04)
+        increment_stage(cid)
+    elif msg.lower() == "нет":
+        plus_motivation(cid, -0.04)
+        increment_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
+def _variant3_5_action(cid, msg, question):
+    if msg.lower() == "да":
+        plus_motivation(cid, 0.06)
+        increment_stage(cid)
+    elif msg.lower() == "нет":
+        plus_motivation(cid, -0.06)
+        increment_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
+def _variant3_6_action(cid, msg, question):
+    if msg.lower() == "да":
+        plus_motivation(cid, 0.04)
+        increment_stage(cid)
+    elif msg.lower() == "нет":
+        plus_motivation(cid, -0.04)
+        increment_stage(cid)
+    else:
+        bot.send_message(cid, "Не совсем тебя понимаю")
 def mock_action(cid, text, _question):
     pass
 

@@ -15,6 +15,10 @@ def increment_stage(cid):
     db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": current_stage + 1}})
     return current_stage + 1
 
+def plus_motivation(cid, val):
+    current_stage = db.users.find_one(str(cid))['motivation'] + val
+    db.users.update_one({"_id": str(cid)}, {"$set": {"motivation": current_stage}})
+
 def reset_context_and_stage(cid):
     db.users.update_one({"_id": str(cid)}, {"$set": {"question_stage": 0, "question_context": "default"}})
 

@@ -132,6 +132,20 @@ def select_question_group_3(cid, questions):
         return questions["questions_first_group"]["question4"]
     elif day == 30:
         return questions["questions_first_group"]["question5"]
+# def select_question_group_3(cid, questions):
+#     # third group is genuine, use specific choice method
+    
+#     day = db.users.find_one(str(cid))['days_gone']
+#     if day == 2:
+#         return questions["questions_first_group"]["question1"]
+#     elif day == 4:
+#         return questions["questions_first_group"][choice(("question2", "question3", "question4", ))]
+#     elif day == 8:
+#         return questions["questions_first_group"][choice(("question2", "question3", "question4", ))]
+#     elif day == 15:
+#         return questions["questions_first_group"][choice(("question2", "question3", "question4", ))]
+#     elif day == 31:
+#         return questions["questions_first_group"]["question5"]
 
 def send_next_message(cid):
     # looks at stage, if there's any more, passes it to send_message. May configeure formated answers

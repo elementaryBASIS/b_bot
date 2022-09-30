@@ -39,3 +39,4 @@ You are able to test it now: [@netlogic_bot](https://t.me/netlogic_bot)
 - Maintainer: [Yaroslav](https://github.com/atokagzx)
 - Filling: [Artem](https://github.com/cymdaspec)
 - Design: Anstasia
+- Analyst:[Danya](https://github.com/triflt)
